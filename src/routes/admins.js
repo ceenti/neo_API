@@ -1,27 +1,26 @@
 const express = require('express')
-const admins = require('../usescases/admins')
-const schools = require('./../usescases/schools')
-const students = require('./../usescases/students')
-const users = require('./../usescases/users')
+const admins = require('../usecases/admins')
+const users = require('../usecases/users')
+const schools = require('../usecases/schools')
+const students = require('../usecases/students')
 const authMiddleware = require('../middlewares/auth')
 
 
 const router = express.Router()
 
+router.post('/create_user', async (req, res) => {
+    const {name, email, password, role, first_name, school_name, last_name, birthday, grade, address, phone} =  req.body
+    const userCreated = await users.createUser(name, email, password, role, true)
 
-router.post('/create_user', authMiddleware, async (req, res) => {
-    const {name, email, password, role, status,first_name, last_name, birthday, grade,name, address, phone} =  req.body
-    const userCreated = await users.create(name, email, password, role, status)
     if (role === 'student'){
         const studentCreated = await students.createStudent(first_name, last_name, birthday, grade, userCreated)
-        data = studentCreated
+        data = studentCreated;
     } 
     if(role === 'school'){
-        const schoolCreated = await schools.createSchool(name, address, phone, userCreated)
+        const schoolCreated = await schools.createSchool(school_name, address, phone, userCreated)
         data = schoolCreated
     }
    
-
     res.json({
         success: true,
         data: data
@@ -31,7 +30,10 @@ router.post('/create_user', authMiddleware, async (req, res) => {
 router.get('/', async(req, res) => {
     const allAdmins = await admins.getAll()
 
-
+    res.json({
+        success:true,
+        data: allAdmins
+    })
 })
 
 router.get('/:id', async(req, res) => {

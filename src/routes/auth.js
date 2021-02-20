@@ -4,6 +4,26 @@ const auth = require('../usecases/auth')
 const router = express.Router()
 
 
+router.post('/admin/create_admin', async (req, res) => {
+
+    try {
+        const {email, password} = req.body
+        const adminCreated = await auth.signupAdmins(email, password)
+        
+        res.json({
+            success: true,
+            data: adminCreated
+        })
+    } catch(error){
+        res.status(401)
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
+
+})
+
 router.post('/admin/login', async( request, response) => {
     try{
         const {email, password} = request.body
@@ -21,7 +41,7 @@ router.post('/admin/login', async( request, response) => {
         response.status(401)
         response.json({
             success: false,
-            message: error.messsage
+            message: error.message
         })
 
     }

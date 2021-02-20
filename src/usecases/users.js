@@ -1,4 +1,6 @@
-const Users = require('./../models/users')
+const Users = require('../models/users')
+const bcrypt = require('bcrypt');
+
 
 
 
@@ -19,7 +21,7 @@ function deleteById(id){
     return Users.findByIdAndUpdate(id)
 }
 
-function createUser(name, email, password, role, status){
+async function createUser(name, email, password, role, status){
     const passwordEncripted = await bcrypt.hash(password, 10)
     return Users.create({name, email, password : passwordEncripted, role, status})
 }

@@ -4,15 +4,15 @@ const jwt = require('jsonwebtoken');
 const Users = require('../models/users');
 const Admins = require('../models/admins');
 
-// async function signupUsers(email, password){
-//     const passwordEncripted = await bcrypt.hash(password, 10)
-//     return Users.create({email, password: passwordEncripted})
-// }
+async function signupUsers(email, password){
+    const passwordEncripted = await bcrypt.hash(password, 10)
+    return Users.create({email, password: passwordEncripted, first_name, last_name, birthday, grade, user})
+}
 
-// async function signupAdmins(email, password){
-//     const passwordEncripted = await bcrypt.hash(password, 10)
-//     return Admins.create({email, password : passwordEncripted})
-// }
+async function signupAdmins(email, password){
+    const passwordEncripted = await bcrypt.hash(password, 10)
+    return Admins.create({email, password : passwordEncripted})
+}
 
 async function loginUsers(email, password){
     const userFound = await Users.findOne({email})
@@ -43,8 +43,8 @@ async function loginAdmins(email, password){
 }
 
 module.exports = {
-    // signupUsers,
-    // signupAdmins,
+    signupUsers,
+    signupAdmins,
     loginUsers,
     loginAdmins
 }

@@ -1,4 +1,4 @@
-const Admins = require('./../models/admins')
+const Admins = require('../models/admins')
 
 function getAll(){
     const allAdmins = Admins.find()
@@ -17,10 +17,10 @@ function updateAdmin(id, email, password, name){
     return Admins.findByIdAndUpdate(id, {name, email, password})
 }
 
-function createAdmin(name, email, password){
-    const passwordEncripted = await bcrypt.hash(password, 10)
-    return Admins.create({name, email, password : passwordEncripted})
-}
+// async function createAdmin(email, password){
+//     const passwordEncripted = await bcrypt.hash(password, 10)
+//     return Admins.create({email, password : passwordEncripted})
+// }
 
 
 module.exports = {
@@ -28,5 +28,5 @@ module.exports = {
     getById,
     deleteById,
     updateAdmin,
-    createAdmin
+    //createAdmin
 }

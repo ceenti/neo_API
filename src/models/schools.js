@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
-    name: {
+    school_name: {
         type: String,
         trim: true,
         required: true  

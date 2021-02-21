@@ -12,5 +12,5 @@ const schema = mongoose.Schema({
         required: true
     }
 
-})
+})  // Verificar posteriormente la relación de la escuela los quizzes que presenta y los alumnos a los que va dirigido
 module.exports = mongoose.model('quizzes', schema)

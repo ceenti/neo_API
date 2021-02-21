@@ -1,15 +1,9 @@
 const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
-    first_name: {
-        type: String,
-        trim: true,
-        required: true  
-    },
     last_name: {
         type: String,
-        trim: true,
-        required: true  
+        trim: true, 
     },
    birthday: {
         type: Date,

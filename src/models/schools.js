@@ -14,6 +14,10 @@ const schema = mongoose.Schema({
         type: String,
         required: true
     },
+    tier: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "tiers"
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users"

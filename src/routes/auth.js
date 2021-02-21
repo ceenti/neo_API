@@ -1,10 +1,12 @@
 const express = require('express')
 const auth = require('../usecases/auth')
+const authMiddleware = require('../middlewares/auth')
+
 
 const router = express.Router()
 
 
-router.post('/admin/create_admin', async (req, res) => {
+router.post('/admin/create_admin', authMiddleware, async (req, res) => {
 
     try {
         const {email, password} = req.body

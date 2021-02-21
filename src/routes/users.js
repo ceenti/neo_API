@@ -1,12 +1,14 @@
 const { request } = require('express')
 const express = require('express')
 const users = require('./../usecases/users')
+const authMiddleware = require('../middlewares/auth')
+
 
 const router = express.Router()
 
 
 
-router.get('/', async(request, response) => {
+router.get('/', authMiddleware, async(request, response) => {
     const allUsers = await users.getAll()
 
     response.json({
@@ -15,7 +17,7 @@ router.get('/', async(request, response) => {
     })
 } )
 
-router.get('/:id', async(request, response) => {
+router.get('/:id', authMiddleware, async(request, response) => {
     const userById = await users.getById(request.params.id)
 
     response.json({
@@ -24,7 +26,7 @@ router.get('/:id', async(request, response) => {
     })
 })
 
-router.patch('/:id', async (request, response) => {
+router.patch('/:id', authMiddleware, async (request, response) => {
     const id = request.params.id
     const {name, email, password} = request.body
 
@@ -36,7 +38,7 @@ router.patch('/:id', async (request, response) => {
     })
 })
 
-router.delete('/:id', async (request, response) => {
+router.delete('/:id', authMiddleware, async (request, response) => {
     const userDeleted = await users.deleteById(request.params.id)
 
     response.json({

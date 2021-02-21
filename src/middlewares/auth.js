@@ -8,7 +8,7 @@ function auth(req, res, next){
         if(!token){
             throw new Error('Token required')
         }
-        const payloadDecoded = jwt.verify(toke, process.env.JWT_SECRET)
+        const payloadDecoded = jwt.verify(toke, process.env.JWT_SECRET)// desencripta y verifica el token
 
         if(!payloadDecoded){
             throw new Error('Invalid token')

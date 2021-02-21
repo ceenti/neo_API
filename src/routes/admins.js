@@ -4,11 +4,12 @@ const users = require('../usecases/users')
 const schools = require('../usecases/schools')
 const students = require('../usecases/students')
 const authMiddleware = require('../middlewares/auth')
+const tiers = require('../usecases/tiers')
 
 
 const router = express.Router()
 
-router.post('/create_user', async (req, res) => {
+router.post('/create_user', authMiddleware, async (req, res) => {
     const {name, email, password, role, first_name, school_name, last_name, birthday, grade, address, phone} =  req.body
     const userCreated = await users.createUser(name, email, password, role, true)
 
@@ -27,7 +28,48 @@ router.post('/create_user', async (req, res) => {
     })
 })
 
-router.get('/', async(req, res) => {
+router.post('/tiers', authMiddleware, async(req, res) => {
+    //El amount es la cantidad máxima de alumnos aceptada en esa membresía
+    const {amount, price, duration, title_tier} = req.body
+    const tierCreated = await tiers.createTier(amount, price, duration, title_tier)
+
+    res.json({
+        success: true,
+        data: data
+    })
+})
+
+router.get('/tiers/:id', authMiddleware, async(req, res) => {
+    const tierById = await tiers.getById(req.params.id)
+
+    res.json({
+        success: true,
+        data: tierById
+    })
+})
+
+router.get('/tiers', authMiddleware, async(req, res) => {
+    const allTiers = await tiers.getAll()
+
+    res.json({
+        success: true,
+        data: allTiers
+    })
+})
+
+router.patch('/tiers/:id', authMiddleware, async(req, res) => {
+    const id = req.params.id
+    const {amount, price, duration, title_tier} = req.body
+
+    const tierUpdated = await tiers.updateById(id, amount, price, duration, title_tier)
+
+    res.json({
+        success: true,
+        data: tierUpdated
+    })
+})
+
+router.get('/', authMiddleware, async(req, res) => {
     const allAdmins = await admins.getAll()
 
     res.json({
@@ -36,7 +78,7 @@ router.get('/', async(req, res) => {
     })
 })
 
-router.get('/:id', async(req, res) => {
+router.get('/:id', authMiddleware, async(req, res) => {
     const adminById = await admins.getById(req.params.id)
 
     res.json({
@@ -45,7 +87,7 @@ router.get('/:id', async(req, res) => {
     })
 })
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', authMiddleware, async (req, res) => {
     const id = req.params.id
     const {name, email, password } = req.body
 
@@ -57,7 +99,7 @@ router.patch('/:id', async (req, res) => {
     })
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authMiddleware, async (req, res) => {
     const adminDeleted = await admins.deleteById(req.params.id)
 
     res.json({

@@ -10,8 +10,7 @@ function getAll(){
 }
 
 function getById(id){
-    const tier = Tiers.findById(id)
-    return tier
+    return Tiers.findById(id)
 }
 
 function updateById(id, max_amount, min_amount, price, duration, title_tier){

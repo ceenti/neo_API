@@ -61,7 +61,6 @@ router.get('/tiers', authMiddleware, async(req, res) => {
 router.patch('/tiers/:id', authMiddleware, async(req, res) => {
     const id = req.params.id
     const {max_amount, min_amount, price, duration, title_tier} = req.body
-
     const tierUpdated = await tiers.updateById(id, max_amount, min_amount, price, duration, title_tier)
 
     res.json({

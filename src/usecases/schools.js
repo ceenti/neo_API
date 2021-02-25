@@ -10,7 +10,7 @@ function getAll(){
 }
 
 function getById(id){
-    school = Schools.findById(id)
+    school = Schools.findOne({_id: id}).populate('tier')
     return school
 }
 

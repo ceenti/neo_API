@@ -1,7 +1,7 @@
 const Tiers = require('../models/tiers')
 
-function createTier(amount, price, duration, title_tier){
-   return Tiers.create(amount, price, duration, title_tier)
+function createTier(max_amount, min_amount, price, duration, title_tier){
+   return Tiers.create({max_amount, min_amount, price, duration, title_tier})
 }
 
 function getAll(){
@@ -14,8 +14,8 @@ function getById(id){
     return tier
 }
 
-function updateById(id, amount, price, duration, title_tier){
-    return  Tiers.findByIdAndUpdate(id, {amount, price, duration, title_tier})
+function updateById(id, max_amount, min_amount, price, duration, title_tier){
+    return  Tiers.findByIdAndUpdate(id, {max_amount, min_amount, price, duration, title_tier})
 }
 
 module.exports = {

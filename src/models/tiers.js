@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
-    amount: {
+    max_amount: {
         type: Number,
-        required: true
+    },
+    min_amount: {
+        type: Number,
     },
     price: {
         type: Number,

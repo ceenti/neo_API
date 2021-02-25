@@ -10,15 +10,16 @@ const tiers = require('../usecases/tiers')
 const router = express.Router()
 
 router.post('/create_user', authMiddleware, async (req, res) => {
-    const {name, email, password, role, first_name, school_name, last_name, birthday, grade, address, phone} =  req.body
+    const {name, email, password, role, first_name, school_name, last_name, birthday, grade, address, phone, tier_id} =  req.body
     const userCreated = await users.createUser(name, email, password, role, true)
+    const getTierById = await tiers.getById(tier_id)
 
     if (role === 'student'){
         const studentCreated = await students.createStudent(first_name, last_name, birthday, grade, userCreated)
         data = studentCreated;
     } 
     if(role === 'school'){
-        const schoolCreated = await schools.createSchool(school_name, address, phone, userCreated)
+        const schoolCreated = await schools.createSchool(school_name, address, phone, getTierById, userCreated)
         data = schoolCreated
     }
    
@@ -30,12 +31,12 @@ router.post('/create_user', authMiddleware, async (req, res) => {
 
 router.post('/tiers', authMiddleware, async(req, res) => {
     //El amount es la cantidad máxima de alumnos aceptada en esa membresía
-    const {amount, price, duration, title_tier} = req.body
-    const tierCreated = await tiers.createTier(amount, price, duration, title_tier)
+    const {max_amount, min_amount, price, duration, title_tier} = req.body
+    const tierCreated = await tiers.createTier(max_amount, min_amount, price, duration, title_tier)
 
     res.json({
         success: true,
-        data: data
+        data: tierCreated
     })
 })
 
@@ -59,13 +60,31 @@ router.get('/tiers', authMiddleware, async(req, res) => {
 
 router.patch('/tiers/:id', authMiddleware, async(req, res) => {
     const id = req.params.id
-    const {amount, price, duration, title_tier} = req.body
+    const {max_amount, min_amount, price, duration, title_tier} = req.body
 
-    const tierUpdated = await tiers.updateById(id, amount, price, duration, title_tier)
+    const tierUpdated = await tiers.updateById(id, max_amount, min_amount, price, duration, title_tier)
 
     res.json({
         success: true,
         data: tierUpdated
+    })
+})
+
+router.get('/schools', authMiddleware, async(req, res) => {
+    const allSchools = await schools.getAll()
+
+    res.json({
+        success: true,
+        data: allSchools
+    })
+})
+
+router.get('/schools/:id', authMiddleware, async(req, res) => {
+    const school = await schools.getById(req.params.id)
+
+    res.json({
+        success: true,
+        data: school
     })
 })
 

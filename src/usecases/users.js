@@ -18,7 +18,7 @@ function updateById(id, name, email, password){
 }
 
 function deleteById(id){
-    return Users.findByIdAndUpdate(id)
+    return Users.findByIdAndDelete(id)
 }
 
 async function createUser(name, email, password, role, status){

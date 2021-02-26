@@ -17,6 +17,7 @@ function getById(id){
 function updateById(id, school_name, address, phone){
   return  Schools.findByIdAndUpdate(id, {school_name, address, phone} )
 }
+
 module.exports = {
     createSchool, 
     getAll, 

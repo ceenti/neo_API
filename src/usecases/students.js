@@ -1,7 +1,7 @@
 const Students = require('../models/students')
 
-function createStudent(first_name, last_name, birthday, grade, user){
-    return Students.create({first_name, last_name, birthday, grade, user})
+function createStudent(last_name, birthday, grade, user, school){
+    return Students.create({last_name, birthday, grade, user, school})
 }
 
 function getBySchool(school) {

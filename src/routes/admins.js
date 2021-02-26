@@ -180,6 +180,27 @@ router.get('/schools/:id/students', authMiddleware, async(req, res) => {
     }
 })
 
+// Create student
+router.post('/students', authMiddleware, async(req, res) => {
+    try {
+        const { email, password, name, last_name, birthday, grade, role, school } = req.body;
+        const userCreated = await users.createUser(name, email, password, role, true)
+        const schoolFound = await schools.getById(school)
+        const studentCreated = await students.createStudent(last_name, birthday, grade, userCreated, schoolFound)
+
+        res.json({
+            success: true,
+            data: studentCreated
+        })
+    } catch(error) {
+        res.status(400)
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
+})
+
 // Get all admins
 router.get('/', authMiddleware, async(req, res) => {
     try {

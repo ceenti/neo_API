@@ -14,7 +14,7 @@ function getById(id){
 }
 
 function updateById(id, max_amount, min_amount, price, duration, title_tier){
-    return  Tiers.findByIdAndUpdate(id, {max_amount, min_amount, price, duration, title_tier})
+    return  Tiers.findOneAndUpdate({_id: id}, {max_amount, min_amount, price, duration, title_tier})
 }
 
 module.exports = {

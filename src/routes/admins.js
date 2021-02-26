@@ -60,7 +60,8 @@ router.get('/tiers', authMiddleware, async(req, res) => {
 
 router.patch('/tiers/:id', authMiddleware, async(req, res) => {
     const id = req.params.id
-    const {max_amount, min_amount, price, duration, title_tier} = req.body
+    console.log(req.body);
+    const { max_amount, min_amount, price, duration, title_tier } = req.body
     const tierUpdated = await tiers.updateById(id, max_amount, min_amount, price, duration, title_tier)
 
     res.json({
@@ -84,6 +85,18 @@ router.get('/schools/:id', authMiddleware, async(req, res) => {
     res.json({
         success: true,
         data: school
+    })
+})
+
+router.patch('/schools/:id', authMiddleware, async(req, res) => {
+    const id = req.params.id
+    const {school_name, address, phone} = req.body
+
+    const schoolUpdated = await schools.updateById(id, school_name, address, phone)
+
+    res.json({
+        success: true,
+        data: schoolUpdated
     })
 })
 

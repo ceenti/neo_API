@@ -122,7 +122,7 @@ router.get('/schools', authMiddleware, async(req, res) => {
     }
 })
 
-// GEt single school
+// Get single school
 router.get('/schools/:id', authMiddleware, async(req, res) => {
     try {
         const school = await schools.getById(req.params.id)
@@ -151,6 +151,25 @@ router.patch('/schools/:id', authMiddleware, async(req, res) => {
         res.json({
             success: true,
             data: schoolUpdated
+        })
+    } catch(error) {
+        res.status(400)
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
+})
+
+// Get students by school
+router.get('/schools/:id/students', authMiddleware, async(req, res) => {
+    try {
+        const school = await schools.getById(req.params.id)
+        const studentsBySchool = await students.getBySchool(school)
+
+        res.json({
+            success: true,
+            data: studentsBySchool
         })
     } catch(error) {
         res.status(400)

@@ -5,15 +5,15 @@ const schema = mongoose.Schema({
         type: String,
         trim: true, 
     },
-   birthday: {
+    birthday: {
         type: Date,
         trim: true,
         required: true
-   },
-   grade:{
+    },
+    grade:{
         type: Number,
         required: true
-   },
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users"

@@ -18,4 +18,5 @@ const schema = mongoose.Schema({
     }
 
 })
+
 module.exports = mongoose.model('admins', schema)

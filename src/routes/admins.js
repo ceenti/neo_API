@@ -29,114 +29,210 @@ router.post('/create_user', authMiddleware, async (req, res) => {
     })
 })
 
-router.post('/tiers', authMiddleware, async(req, res) => {
-    //El amount es la cantidad máxima de alumnos aceptada en esa membresía
-    const {max_amount, min_amount, price, duration, title_tier} = req.body
-    const tierCreated = await tiers.createTier(max_amount, min_amount, price, duration, title_tier)
-
-    res.json({
-        success: true,
-        data: tierCreated
-    })
-})
-
-router.get('/tiers/:id', authMiddleware, async(req, res) => {
-    const tierById = await tiers.getById(req.params.id)
-
-    res.json({
-        success: true,
-        data: tierById
-    })
-})
-
+// Get all tiers
 router.get('/tiers', authMiddleware, async(req, res) => {
-    const allTiers = await tiers.getAll()
+    try {
+        const allTiers = await tiers.getAll()
 
-    res.json({
-        success: true,
-        data: allTiers
-    })
+        res.json({
+            success: true,
+            data: allTiers
+        })
+    } catch(error) {
+        res.status(400)
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
 })
 
+// Create Tier
+router.post('/tiers', authMiddleware, async(req, res) => {
+    try {
+        const {max_amount, min_amount, price, duration, title_tier} = req.body
+        const tierCreated = await tiers.createTier(max_amount, min_amount, price, duration, title_tier)
+
+        res.json({
+            success: true,
+            data: tierCreated
+        })
+    } catch(error) {
+        res.status(400)
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
+})
+
+// Get single tier
+router.get('/tiers/:id', authMiddleware, async(req, res) => {
+    try {
+        const tierById = await tiers.getById(req.params.id)
+
+        res.json({
+            success: true,
+            data: tierById
+        })
+    } catch(error) {
+        res.status(400)
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
+})
+
+// Update single tier
 router.patch('/tiers/:id', authMiddleware, async(req, res) => {
-    const id = req.params.id
-    console.log(req.body);
-    const { max_amount, min_amount, price, duration, title_tier } = req.body
-    const tierUpdated = await tiers.updateById(id, max_amount, min_amount, price, duration, title_tier)
+    try {
+        const id = req.params.id 
+        const { max_amount, min_amount, price, duration, title_tier } = req.body
+        const tierUpdated = await tiers.updateById(id, max_amount, min_amount, price, duration, title_tier)
 
-    res.json({
-        success: true,
-        data: tierUpdated
-    })
+        res.json({
+            success: true,
+            data: tierUpdated
+        })
+    } catch(error) {
+        res.status(400)
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
 })
 
+// Get all schools
 router.get('/schools', authMiddleware, async(req, res) => {
-    const allSchools = await schools.getAll()
+    try {
+        const allSchools = await schools.getAll()
 
-    res.json({
-        success: true,
-        data: allSchools
-    })
+        res.json({
+            success: true,
+            data: allSchools
+        })
+    } catch(error) {
+        res.status(400)
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
 })
 
+// GEt single school
 router.get('/schools/:id', authMiddleware, async(req, res) => {
-    const school = await schools.getById(req.params.id)
+    try {
+        const school = await schools.getById(req.params.id)
 
-    res.json({
-        success: true,
-        data: school
-    })
+        res.json({
+            success: true,
+            data: school
+        })
+    } catch(error) {
+        res.status(400)
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
 })
 
+// Update single school
 router.patch('/schools/:id', authMiddleware, async(req, res) => {
-    const id = req.params.id
-    const {school_name, address, phone} = req.body
+    try {
+        const id = req.params.id
+        const {school_name, address, phone} = req.body
 
-    const schoolUpdated = await schools.updateById(id, school_name, address, phone)
+        const schoolUpdated = await schools.updateById(id, school_name, address, phone)
 
-    res.json({
-        success: true,
-        data: schoolUpdated
-    })
+        res.json({
+            success: true,
+            data: schoolUpdated
+        })
+    } catch(error) {
+        res.status(400)
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
 })
 
+// Get all admins
 router.get('/', authMiddleware, async(req, res) => {
-    const allAdmins = await admins.getAll()
+    try {
+        const allAdmins = await admins.getAll()
 
-    res.json({
-        success:true,
-        data: allAdmins
-    })
+        res.json({
+            success:true,
+            data: allAdmins
+        })
+    } catch(error) {
+        res.status(400)
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
 })
 
+// Get single admin
 router.get('/:id', authMiddleware, async(req, res) => {
-    const adminById = await admins.getById(req.params.id)
+    try {
+        const adminById = await admins.getById(req.params.id)
 
-    res.json({
-        success:true,
-        data: adminById
-    })
+        res.json({
+            success:true,
+            data: adminById
+        })
+    } catch(error) {
+        res.status(400)
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
 })
 
+// Update single admin
 router.patch('/:id', authMiddleware, async (req, res) => {
-    const id = req.params.id
-    const {name, email, password } = req.body
+    try {
+        const id = req.params.id
+        const {name, email, password } = req.body
+        const adminUpdated = await admins.updateAdmin(id, email, password, name)
 
-    const adminUpdated = await admins.updateAdmin(id, email, password, name)
-
-    res.json({
-        success: true,
-        data: adminUpdated
-    })
+        res.json({
+            success: true,
+            data: adminUpdated
+        })
+    } catch(error) {
+        res.status(400)
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
 })
 
+// Delete a single admin
 router.delete('/:id', authMiddleware, async (req, res) => {
-    const adminDeleted = await admins.deleteById(req.params.id)
+    try {
+        const adminDeleted = await admins.deleteById(req.params.id)
 
-    res.json({
-        success: true,
-        data: adminDeleted
-    })
+        res.json({
+            success: true,
+            data: adminDeleted
+        })
+    } catch(error) {
+        res.status(400)
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
 })
 
 module.exports = router

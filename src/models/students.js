@@ -17,6 +17,10 @@ const schema = mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users"
+    },
+    school: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "schools"
     }
 })
 
